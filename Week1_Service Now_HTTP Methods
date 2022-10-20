@@ -1,0 +1,362 @@
+{
+	"info": {
+		"_postman_id": "af02edc3-25e0-42c3-8597-dc697c93187e",
+		"name": "Service Now",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21328049"
+	},
+	"item": [
+		{
+			"name": "Create Incident",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    //pm.response.to.have.status(201);\r",
+							"    pm.expect(pm.response.code).to.be.oneOf ([200,201,203]);\r",
+							"});\r",
+							"\r",
+							"Resp=pm.response.json();\r",
+							"G_sysidd=Resp.result.sys_id;\r",
+							"pm.globals.set(\"G_sysid\",G_sysidd);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "B@xXnl!NnT89",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"short_description\":\"Windows issue\",\"description\":\"Windows is not booting up after restart\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev79199.service-now.com/api/now/table/incident",
+					"protocol": "https",
+					"host": [
+						"dev79199",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Incident",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "B@xXnl!NnT89",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev79199.service-now.com/api/now/table/incident/{{G_sysid}}",
+					"protocol": "https",
+					"host": [
+						"dev79199",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident",
+						"{{G_sysid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put Incident",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"putdesc=pm.response.json().result.description;\r",
+							"pm.expect(putdesc).to.eql(\"put updated : Windows reboot failed\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "B@xXnl!NnT89",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"short_description\": \"Windows issue\",\r\n    \"description\": \"put updated : Windows reboot failed\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev79199.service-now.com/api/now/table/incident/{{G_sysid}}",
+					"protocol": "https",
+					"host": [
+						"dev79199",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident",
+						"{{G_sysid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update Incident",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"putresp=pm.response.json();\r",
+							"patchdesc=putresp.result.description;\r",
+							"pm.expect(patchdesc).to.eql(\"patch Updated:Windows reboot issue\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "B@xXnl!NnT89",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"patch Updated:Windows reboot issue\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev79199.service-now.com/api/now/table/incident/{{G_sysid}}",
+					"protocol": "https",
+					"host": [
+						"dev79199",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident",
+						"{{G_sysid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Incident",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "B@xXnl!NnT89",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://dev79199.service-now.com/api/now/table/incident/{{G_sysid}}",
+					"protocol": "https",
+					"host": [
+						"dev79199",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident",
+						"{{G_sysid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Final Get incident",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "B@xXnl!NnT89",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev79199.service-now.com/api/now/table/incident/{{G_sysid}}",
+					"protocol": "https",
+					"host": [
+						"dev79199",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident",
+						"{{G_sysid}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

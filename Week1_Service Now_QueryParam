@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "56e7c295-c0b4-44e1-8fcc-4bf6dab21923",
+		"name": "Weekly exercises",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21328049"
+	},
+	"item": [
+		{
+			"name": "Create Incident Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    //pm.response.to.have.status(201);\r",
+							"    pm.expect(pm.response.code).to.be.oneOf ([200,201,203]);\r",
+							"});\r",
+							"\r",
+							"Resp=pm.response.json();\r",
+							"G_sysidd=Resp.result.sys_id;\r",
+							"G_IncNumber= Resp.result.task_effective_number\r",
+							"pm.globals.set(\"G_sysid\",G_sysidd);\r",
+							"pm.globals.set(\"G_IncNumb\",G_IncNumber);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "B@xXnl!NnT89",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"short_description\": \"Windows issue\",\r\n    \"description\": \"Windows is not booting up after restart\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev79199.service-now.com/api/now/table/incident",
+					"protocol": "https",
+					"host": [
+						"dev79199",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Incident Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "B@xXnl!NnT89",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev79199.service-now.com/api/now/table/incident/{{G_sysid}}?sysparm_display_value={{G_IncNumb}}",
+					"protocol": "https",
+					"host": [
+						"dev79199",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident",
+						"{{G_sysid}}"
+					],
+					"query": [
+						{
+							"key": "sysparm_display_value",
+							"value": "{{G_IncNumb}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
